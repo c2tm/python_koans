@@ -18,8 +18,22 @@
 #
 def triangle(a, b, c):
     # DELETE 'PASS' AND WRITE THIS CODE
-    pass
+    if a <= 0 or b <= 0 or c <= 0:
+        raise TriangleError(Exception)
 
+    if a + b < c or a + c < b or c + b < a:
+        raise TriangleError(Exception)
+
+    if a == b & b == c:
+        return 'equilateral'
+    elif a == b or b == c or c == a:
+        return 'isosceles'
+    else:
+        return 'scalene'
+
+# Explain why we need to pass in Exception
 # Error class used in part 2.  No need to change this code.
+
+
 class TriangleError(Exception):
     pass

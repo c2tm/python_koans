@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from itertools import count
 from runner.koan import *
+
 
 class AboutTuples(Koan):
     def test_creating_a_tuple(self):
-        count_of_three =  (1, 2, 5)
-        self.assertEqual(__, count_of_three[2])
+        count_of_three = (1, 2, 5)
+        # self.assertEqual(__, count_of_three[2])
+        self.assertEqual(5, count_of_three[2])
+
+        # tuples are targetted like lists
 
     def test_tuples_are_immutable_so_item_assignment_is_not_possible(self):
 
@@ -19,13 +24,18 @@ class AboutTuples(Koan):
         # Note, assertRegex() uses regular expression pattern matching,
         # so you don't have to copy the whole message.
 
-        self.assertRegex(msg, __)
+        self.assertRegex(
+            msg, "'tuple' object does not support item assignment")
+
+        # tuples cannot be changed
 
     def test_tuples_are_immutable_so_appending_is_not_possible(self):
-        count_of_three =  (1, 2, 5)
-        with self.assertRaises(___): count_of_three.append("boom")
+        count_of_three = (1, 2, 5)
+        with self.assertRaises(AttributeError):
+            count_of_three.append("boom")
 
         # Tuples are less flexible than lists, but faster.
+        # appending a tuple throws an attribute error
 
     def test_tuples_can_only_be_changed_through_replacement(self):
         count_of_three = (1, 2, 5)
@@ -34,26 +44,48 @@ class AboutTuples(Koan):
         list_count.append("boom")
         count_of_three = tuple(list_count)
 
-        self.assertEqual(__, count_of_three)
+        self.assertEqual((1, 2, 5, "boom"), count_of_three)
+
+        # The only way to change a tuple is to convert it to a list
 
     def test_tuples_of_one_look_peculiar(self):
-        self.assertEqual(__, (1).__class__)
-        self.assertEqual(__, (1,).__class__)
-        self.assertEqual(__, ("I'm a tuple",).__class__)
-        self.assertEqual(__, ("Not a tuple").__class__)
+        # self.assertEqual(__, (1).__class__)
+        # self.assertEqual(__, (1,).__class__)
+        # self.assertEqual(__, ("I'm a tuple",).__class__)
+        # self.assertEqual(__, ("Not a tuple").__class__)
+
+        self.assertEqual(int, (1).__class__)
+        self.assertEqual(tuple, (1,).__class__)
+        self.assertEqual(tuple, ("I'm a tuple",).__class__)
+        self.assertEqual(str, ("Not a tuple").__class__)
+
+        # Tuples of one are written as (Value,)
 
     def test_tuple_constructor_can_be_surprising(self):
-        self.assertEqual(__, tuple("Surprise!"))
+        self.assertEqual(('S', 'u', 'r', 'p', 'r', 'i',
+                         's', 'e', '!'), tuple("Surprise!"))
+
+        # tuple(str) splits string by letters or words if multiple
 
     def test_creating_empty_tuples(self):
-        self.assertEqual(__ , ())
-        self.assertEqual(__ , tuple()) #Sometimes less confusing
+        # self.assertEqual(__, ())
+        # self.assertEqual(__, tuple())  # Sometimes less confusing
+
+        self.assertEqual((), ())
+        self.assertEqual((), tuple())
+
+        # you can create empty tuples
 
     def test_tuples_can_be_embedded(self):
         lat = (37, 14, 6, 'N')
         lon = (115, 48, 40, 'W')
         place = ('Area 51', lat, lon)
-        self.assertEqual(__, place)
+        # self.assertEqual(__, place)
+
+        self.assertEqual(('Area 51', (37, 14, 6, 'N'),
+                         (115, 48, 40, 'W')), place)
+
+        # tuples can be embedded into other tuples
 
     def test_tuples_are_good_for_representing_records(self):
         locations = [
@@ -61,7 +93,12 @@ class AboutTuples(Koan):
             ("Stargate B", (41, 10, 43.92, 'N'), (1, 49, 34.29, 'W')),
         ]
 
-        locations.append( ("Cthulu", (26, 40, 1, 'N'), (70, 45, 7, 'W')) )
+        locations.append(("Cthulu", (26, 40, 1, 'N'), (70, 45, 7, 'W')))
 
-        self.assertEqual(__, locations[2][0])
-        self.assertEqual(__, locations[0][1][2])
+        # self.assertEqual(__, locations[2][0])
+        # self.assertEqual(__, locations[0][1][2])
+
+        self.assertEqual('Cthulu', locations[2][0])
+        self.assertEqual(15.56, locations[0][1][2])
+
+        # tuples in lists are accessed by index

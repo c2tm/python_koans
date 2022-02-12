@@ -3,30 +3,36 @@
 
 from runner.koan import *
 
+
 class AboutIteration(Koan):
 
     def test_iterators_are_a_type(self):
-        it = iter(range(1,6))
+        it = iter(range(1, 6))
 
         total = 0
 
         for num in it:
             total += num
 
-        self.assertEqual(__ , total)
+        self.assertEqual(15, total)
+
+        # iter creates an iterable object
 
     def test_iterating_with_next(self):
-        stages = iter(['alpha','beta','gamma'])
+        stages = iter(['alpha', 'beta', 'gamma'])
 
         try:
-            self.assertEqual(__, next(stages))
+            self.assertEqual('alpha', next(stages))
             next(stages)
-            self.assertEqual(__, next(stages))
+            self.assertEqual('gamma', next(stages))
             next(stages)
         except StopIteration as ex:
             err_msg = 'Ran out of iterations'
 
-        self.assertRegex(err_msg, __)
+        self.assertRegex(err_msg, 'Ran out of iterations')
+
+        # everytime next() is called, the iterable iterates to the next object
+        # in iterable
 
     # ------------------------------------------------------------------
 
@@ -40,14 +46,16 @@ class AboutIteration(Koan):
         mapping = map(self.add_ten, seq)
 
         self.assertNotEqual(list, mapping.__class__)
-        self.assertEqual(__, mapping.__class__)
+        self.assertEqual(map, mapping.__class__)
         # In Python 3 built in iterator funcs return iterable view objects
         # instead of lists
 
         for item in mapping:
             mapped_seq.append(item)
 
-        self.assertEqual(__, mapped_seq)
+        # map(function, list to map over)
+
+        self.assertEqual([11, 12, 13], mapped_seq)
 
         # Note, iterator methods actually return objects of iter type in
         # python 3. In python 2 map() would give you a list.
@@ -62,17 +70,17 @@ class AboutIteration(Koan):
         for item in filter(is_even, seq):
             even_numbers.append(item)
 
-        self.assertEqual(__, even_numbers)
+        self.assertEqual([2, 4, 6], even_numbers)
 
     def test_filter_returns_all_items_matching_criterion(self):
         def is_big_name(item):
-             return len(item) > 4
+            return len(item) > 4
 
         names = ["Jim", "Bill", "Clarence", "Doug", "Eli", "Elizabeth"]
         iterator = filter(is_big_name, names)
 
-        self.assertEqual(__, next(iterator))
-        self.assertEqual(__, next(iterator))
+        self.assertEqual('Clarence', next(iterator))
+        self.assertEqual('Elizabeth', next(iterator))
 
         try:
             next(iterator)
@@ -80,14 +88,16 @@ class AboutIteration(Koan):
         except StopIteration:
             msg = 'Ran out of big names'
 
-        self.assertEquals(__, msg)
+        self.assertEquals('Ran out of big names', msg)
+
+        # filter creates a new list based on custom test
 
     # ------------------------------------------------------------------
 
-    def add(self,accum,item):
+    def add(self, accum, item):
         return accum + item
 
-    def multiply(self,accum,item):
+    def multiply(self, accum, item):
         return accum * item
 
     def test_reduce_will_blow_your_mind(self):
@@ -96,31 +106,38 @@ class AboutIteration(Koan):
         # to the functools module.
 
         result = functools.reduce(self.add, [2, 3, 4])
-        self.assertEqual(__, result.__class__)
+        self.assertEqual(int, result.__class__)
         # Reduce() syntax is same as Python 2
 
-        self.assertEqual(__, result)
+        self.assertEqual(9, result)
 
         result2 = functools.reduce(self.multiply, [2, 3, 4], 1)
-        self.assertEqual(__, result2)
+        self.assertEqual(24, result2)
 
         # Extra Credit:
         # Describe in your own words what reduce does.
 
+        # reduce reduces a list down to a single value based on a condition you set
+        # and the number of times you set the condition to run
+
     # ------------------------------------------------------------------
 
     def test_use_pass_for_iterations_with_no_body(self):
-        for num in range(1,5):
+        for num in range(1, 5):
             pass
 
-        self.assertEqual(__, num)
+        self.assertEqual(4, num)
+
+        # Not sure why you would ever do this
 
     # ------------------------------------------------------------------
 
     def test_all_iteration_methods_work_on_any_sequence_not_just_lists(self):
         # Ranges are an iterable sequence
-        result = map(self.add_ten, range(1,4))
-        self.assertEqual(__, list(result))
+        result = map(self.add_ten, range(1, 4))
+        self.assertEqual([11, 12, 13], list(result))
+
+        # ranges are iterable
 
     def test_lines_in_a_file_are_iterable_sequences_too(self):
         def make_upcase(line):
@@ -128,5 +145,5 @@ class AboutIteration(Koan):
 
         file = open("example_file.txt")
         upcase_lines = map(make_upcase, file.readlines())
-        self.assertEqual(__, list(upcase_lines))
+        self.assertEqual(['This', 'Is', 'A', 'Test'], list(upcase_lines))
         file.close()
