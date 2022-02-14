@@ -14,8 +14,10 @@ class AboutDecoratingWithFunctions(Koan):
         return "o/~ We all live in a broken submarine o/~"
 
     def test_decorators_can_modify_a_function(self):
-        self.assertRegex(self.mediocre_song(), __)
-        self.assertEqual(__, self.mediocre_song.wow_factor)
+        self.assertRegex(self.mediocre_song(), "o/~ We all live in a broken submarine o/~")
+        self.assertEqual('COWBELL BABY!', self.mediocre_song.wow_factor)
+
+        #i understand that fn.wow_factor will overwrite the fn with a new value.
 
     # ------------------------------------------------------------------
 
@@ -29,4 +31,6 @@ class AboutDecoratingWithFunctions(Koan):
         return name
 
     def test_decorators_can_change_a_function_output(self):
-        self.assertEqual(__, self.render_tag('llama'))
+        self.assertEqual('<llama/>', self.render_tag('llama'))
+
+        #Im interested in what the use case for this is

@@ -35,7 +35,189 @@ from runner.koan import *
 
 def score(dice):
     # You need to write this method
-    pass
+    points = 0
+
+    if len(dice) == 0:
+        return 0
+
+    if len(dice) == 1:
+        if dice[0] == 1:
+            return 100
+        elif dice[0] == 5:
+            return 50
+        else:
+            return 0
+    
+    if len(dice) == 3:
+        if dice[0] == 1 and dice[0] == dice[1] == dice[2]:
+            return 1000
+
+        if dice[0] == dice[1] == dice[2]:
+            return dice[0] * 100
+        
+        for num in range(3):
+            if dice[num] == 1:
+                points += 100
+            elif dice[num] == 5:
+                points += 50
+
+        return points
+
+    if len(dice) == 4:
+        if dice[0] == 1 and dice[0] == dice[1] == dice[2]:
+            points += 1000
+            if dice[3] == 1:
+                points += 100
+            elif dice[3] == 5:
+                points += 50
+
+            return points
+
+        elif dice[3] == 1 and dice[1] == dice[2] == dice[3]:
+            points += 1000
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+
+            return points
+
+        elif dice[0] == dice[1] == dice[2]:
+            points += dice[0] * 100
+            if dice[3] == 1:
+                points += 100
+            elif dice[3] == 5:
+                points += 50
+
+            return points
+
+        elif dice[1] == dice[2] == dice[3]:
+            points += dice[3] * 100
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+
+            return points
+        else:
+            for num in range(4):
+                if dice[num] == 1:
+                    points += 100
+                elif dice[num] == 5:
+                    points += 50
+
+            return points
+
+    if len(dice) == 5:
+        if dice[0] == 1 and dice[0] == dice[1] == dice[2]:
+            points += 1000
+            if dice[3] == 1:
+                points += 100
+            elif dice[3] == 5:
+                points += 50
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            return points
+        elif dice[4] == 1 and dice[2] == dice[3] == dice[4]:
+            points += 1000
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+            if dice[1] == 1:
+                points += 100
+            elif dice[1] == 5:
+                points += 50
+            return points
+        elif dice[1] == 1 and dice[1] == dice[2] == dice[3]:
+            points += 1000
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            return points
+        elif dice[0] == dice[1] == dice[2]:
+            points += dice[0] * 100
+            if dice[3] == 1:
+                points += 100
+            elif dice[3] == 5:
+                points += 50
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            return points
+        elif dice[2] == dice[3] == dice[4]:
+            points += dice[4] * 100
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+            if dice[1] == 1:
+                points += 100
+            elif dice[1] == 5:
+                points += 50
+            return points
+        elif dice[1] == dice[2] == dice[3]:
+            points += dice[1] * 100
+            if dice[0] == 1:
+                points += 100
+            elif dice[0] == 5:
+                points += 50
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            return points
+        elif dice[0] == dice[2] == dice[3]:
+            points += dice[0] * 100
+            if dice[1] == 1:
+                points += 100
+            elif dice[1] == 5:
+                points += 50
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            return points
+        elif dice[0] == dice[3] == dice[4]:
+            points += dice[0] * 100
+            if dice[1] == 1:
+                points += 100
+            elif dice[1] == 5:
+                points += 50
+            if dice[2] == 1:
+                points += 100
+            elif dice[2] == 5:
+                points += 50
+            return points
+        elif dice[1] == dice[0] == dice[3]:
+            points += dice[0] * 100
+            if dice[4] == 1:
+                points += 100
+            elif dice[4] == 5:
+                points += 50
+            if dice[2] == 1:
+                points += 100
+            elif dice[2] == 5:
+                points += 50
+            return points
+        else:
+            for num in range(5):
+                if dice[num] == 1:
+                    points += 100
+                elif dice[num] == 5:
+                    points += 50
+            return points
+
+    #This is very sloppy and I dont have time to make it cleaner
+            
 
 
 class AboutScoringProject(Koan):

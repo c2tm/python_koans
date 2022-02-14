@@ -5,6 +5,7 @@
 # Based on AboutSandwichCode in the Ruby Koans
 #
 
+from typing import final
 from runner.koan import *
 
 import re # For regular expression string comparisons
@@ -22,7 +23,9 @@ class AboutWithStatements(Koan):
             self.fail()
 
     def test_counting_lines(self):
-        self.assertEqual(__, self.count_lines("example_file.txt"))
+        self.assertEqual(4, self.count_lines("example_file.txt"))
+
+        #function tries to open a file or .fail if the file cannot be opened. Then tries to read the files lines then close the file.
 
     # ------------------------------------------------------------------
 
@@ -41,7 +44,9 @@ class AboutWithStatements(Koan):
             self.fail()
 
     def test_finding_lines(self):
-        self.assertEqual(__, self.find_line("example_file.txt"))
+        self.assertEqual('test\n', self.find_line("example_file.txt"))
+
+        #Looks like function tries to open a file and read eacxh line. For each line, it checks for the char 'e' and returns the line if it is there.
 
     ## ------------------------------------------------------------------
     ## THINK ABOUT IT:
@@ -85,18 +90,27 @@ class AboutWithStatements(Koan):
             return len(file.readlines())
 
     def test_counting_lines2(self):
-        self.assertEqual(__, self.count_lines2("example_file.txt"))
+        self.assertEqual(4, self.count_lines2("example_file.txt"))
+
+    #FileContextManager takes care of opening and closing the file for us
 
     # ------------------------------------------------------------------
 
     def find_line2(self, file_name):
         # Using the context manager self.FileContextManager, rewrite this
         # function to return the first line containing the letter 'e'.
-        return None
+        with self.FileContextManager(file_name) as file:
+            for lines in file.readlines():
+                results = re.search('e', lines)
+                if results:
+                    return lines
+            
 
     def test_finding_lines2(self):
         self.assertNotEqual(None, self.find_line2("example_file.txt"))
         self.assertEqual('test\n', self.find_line2("example_file.txt"))
+
+        #learned that re.search returns a boolean 
 
     # ------------------------------------------------------------------
 
@@ -105,4 +119,6 @@ class AboutWithStatements(Koan):
             return len(file.readlines())
 
     def test_open_already_has_its_own_built_in_context_manager(self):
-        self.assertEqual(__, self.count_lines3("example_file.txt"))
+        self.assertEqual(4, self.count_lines3("example_file.txt"))
+
+        #Open already has a built in context manager
